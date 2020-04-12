@@ -1,0 +1,9 @@
+/images
+/carpictures
+/output
+./.tmp.drivedownload
+frozen_east_text_detection.pb
+frozen_east_text_detection2.pb
+/static/uploads
+.idea
+/venv
