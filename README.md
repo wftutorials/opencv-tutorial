@@ -5,7 +5,7 @@ of opencv using python and pycharm. Lets get started.
 
 # Installation
 
-We need to have python installed on our computers. We also need to have pip installed
+You first need to have python installed on our computer. We also need to have pip installed
 on our computer.  Once you do this we can get started. 
 
 > You can also use anaconda or any other package manager to load your environment. This may be the
@@ -61,11 +61,11 @@ The results you will see is
 (547, 512, 3)
 ```
 
-Where 547 is the height, 512 is the width and 3 is the number of channels.
+Where `547` is the height, `512` is the width and `3` is the number of channels.
 
 ## Viewing an image
 
-After we read in and image we can display this image again using `cv2.imshow`. This takes two arguments
+After we read in the image we can display this image again using `cv2.imshow`. This takes two arguments
 The window name and the numpy array.
 
 ```python
@@ -77,13 +77,13 @@ cv2.waitKey(0)
 ```
 
 Using `cv2.waitKey(0)` stops the dialog from closing before we get to see the image.
-Show we can see the image in a dialog with the title we put in the first argument.
+So we can see the image in a dialog with the title we put in the first argument.
 
 [showing_image.png]
 
 ## Alternative ways to view image
 
-We can use `matplot` to view images  as well lets see how.
+We can use `matplotlib` to view images as well lets see how.
 
 First install matplotlib
 
@@ -107,15 +107,17 @@ plt.show()
 ```
 
 The results is shown below. The colors will be off but don't worry about that.
-You can always change the color scale afterwards.
+You can always change the color space afterwards.
 
 [image_using_matplot.png]
 
-# Changing the color scale
 
-You can change the color scale of an image quit easily. Lets see how.
+# Changing the color space
+
+You can change the color space of an image quite easily. Lets see how.
+
 Lets change our image to gray scale. To do this we call the 
-`cv2.cvtColor` function and pass in the image and `cv2.COLOR_BGR2GRAY` option.
+`cv2.cvtColor` function and pass in the image and the `cv2.COLOR_BGR2GRAY` option.
 The code is shown below.
 
 ```python
@@ -131,7 +133,7 @@ The results can be seen here.
 
 ## From RGB to BGR
 
-Remember when we use `matplotlib`. The image showed in the scale `GBR`.
+Remember when we used `matplotlib`. The image showed in the color space `GBR`.
 Lets try to get the same results. Below we add the option `cv2.COLOR_RGB2BGR`
 
 ```python
@@ -154,7 +156,7 @@ Play with these options to see the different results you can get.
 
 ## Converting to HSV
 
-A color space to note is `HSV`. We can create comparsions between image with it.
+A color space to note is `HSV`. We can create comparisions between image with it using histograms.
 Lets convert our image to this
 
 ```python
@@ -193,7 +195,7 @@ The results is shown below.
 
 # Saving images
 
-We can save an image by call the `cv2.imwrite()` function.
+We can save an image by calling the `cv2.imwrite()` function.
 It takes the name of the image and the object to save. Lets see the code below
 
 ```python
@@ -215,7 +217,7 @@ This is an important part of working with images in Opencv. You can learn more a
 [here on wikipedia](https://en.wikipedia.org/wiki/Thresholding_(image_processing)) or
 [here on opencv docs](https://docs.opencv.org/master/d7/d4d/tutorial_py_thresholding.html)
 
-But write now let me show you what it does.
+But right now let me show you what it does.
 
 ```python
 import cv2
@@ -229,12 +231,12 @@ cv2.waitKey(0)
 ```
 
 In the above code. We did things we already showed you. We read the image;
-We turned it gray. Then we resized it. **THEN lets get into**
+We turned it gray. Then we resized it. **THEN lets get into thresholding**
 
-We ran the `cv2.threshold` function. We passed first the `image`. The we passed `127`
-which is the **threshold** we can change the value from 0 - 255. Try it out. Next
+We ran the `cv2.threshold` function. We pass first the `image`. The we passed `127`
+which is the **threshold** value, we can change this value from 0 - 255. Try it out. Next
 we have `255` leave this. And finally we have the option `cv2.THRESH_BINARY`. We can 
-modify this last value.
+modify this last value as well.
 
 The results is shown below.
 
@@ -252,7 +254,7 @@ The results is shown below.
 
 ## Thresholding with text
 
-You tend to see thresholding value better if our image as text in it. Lets
+You tend to see the value of thresholding better if our image has text in it. Lets
 try with this image.
 
 [car_plate.png]
@@ -275,7 +277,7 @@ Using threshold value at **100**
 
 [carplate_thres_100.png]
 
-We raise the threshold to **150** and the text in our image gets grainy
+We raise the threshold value to **150** and the text in our image gets grainy
 
 [grainy_thress_lplate.png]
 
@@ -298,7 +300,7 @@ The results is shown below.
 
 [reverse_threshold.png]
 
-### The elephant truck
+### The elephant trunck
 
 Lol. WE can use `cv2.THRESH_TRUNC` to truncate values that reach our limit.
 
@@ -310,11 +312,11 @@ The results is shown below.
 
 [car_truncate_thres.png]
 
-There really are alot of options. So I can go through them.
+There really are alot of options. So I cant go through all of them.
 
 ### Using ADAPTIVE_THRESH_GAUSSIAN_C
 
-This last option I am fond off. Because it has been effective for me. Use in the similar way.
+This last option I am fond off because it has been effective for me. Use in the similar way.
 
 ```python
 ret, thresh_image = cv2.threshold(small_image, 100, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C)
@@ -326,7 +328,7 @@ The results is shown below. This gave me the best results when running ocr.
 
 # Blurring your images
 
-Blurring smooths your image and makes it easier to read for the computer.
+Blurring smooths your image and makes it easier to read for the computer and ocr.
 We can call the `cv2.GaussianBlur` function to blur our images.
 The code is shown below
 
@@ -347,6 +349,7 @@ The results is shown below.
 [bluring_images.png]
 
 Using the `cv2.GaussianBlur` function we pass the image and a tuple you can change these values
+if you like has shown below.
 
 ```python
 blurimg = cv2.GaussianBlur(small_image, (3, 3), 0) # blur image
@@ -368,10 +371,10 @@ An example is shown below
 cv2.rectangle(image, (50, 100), (100, 200), (0, 255, 0))
 ```
 
-So above we have the source image called `image`. The we have a tuple for 
+So above we have the source image called `image`. Then we have a tuple for 
 the start point (x, y) coordinates `(50, 100)`. Then the end point with 
-(x, y) coordinates `(100, 200)`. Finally we have set the color of the via
-tuple rgb. So green is `(0, 255, 0)`.
+(x, y) coordinates `(100, 200)`. Finally we have to set the color of the rectangle
+via a tuple in rgb format. So green is `(0, 255, 0)`.
 
 The results is shown below.
 
@@ -390,8 +393,9 @@ cv2.imshow("dog", small_image)
 cv2.waitKey(0)
 ```
 
-The results is shown below. If you play with this long enough. To move your box horizontally play with the 
-x values in the starting and ending points. To move your box vertically play with the y values in the starting and
+The results is shown below. If you want you can  play with this to get the hang of it. 
+To move your box horizontally play with the x values in the starting and ending points. 
+To move your box vertically play with the y values in the starting and
 ending points.
 
 [bounding_box_nose.png]
@@ -430,7 +434,7 @@ The results is shown below.
 # Rotating your images
 
 Lets see how we can rotate images with opencv. We can use `cv2.warpAffine()`
-to rotate our images. You can learn more [here](https://docs.opencv.org/2.4/doc/tutorials/imgproc/imgtrans/warp_affine/warp_affine.html)
+to rotate our images. You can learn more about it [here](https://docs.opencv.org/2.4/doc/tutorials/imgproc/imgtrans/warp_affine/warp_affine.html)
 
 Lets get started.
 
@@ -451,7 +455,7 @@ The `30` is the angle. We can change this to rotate the image to different degre
 
 The results is shown below.
 
-**For 30 **
+**For 30**
 
 [rotate_image_30.png]
 
