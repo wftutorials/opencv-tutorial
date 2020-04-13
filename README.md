@@ -41,6 +41,28 @@ A sample of what a numpy array looks lie is shown below.
 
 [numpyarray_sample.png]
 
+## Getting image shape
+
+We can get the image shape by calling `image.shape`. Where `image` is the image we read in using
+`cv2.imread()` function.
+
+Let see this in action.
+
+```python
+import cv2
+
+image = cv2.imread('dog.png')
+print(image.shape)
+```
+
+The results you will see is
+
+```python
+(547, 512, 3)
+```
+
+Where 547 is the height, 512 is the width and 3 is the number of channels.
+
 ## Viewing an image
 
 After we read in and image we can display this image again using `cv2.imshow`. This takes two arguments
@@ -292,7 +314,7 @@ There really are alot of options. So I can go through them.
 
 ### Using ADAPTIVE_THRESH_GAUSSIAN_C
 
-This last option I am fond off. Because it has been effective for me. Use in the simlar way.
+This last option I am fond off. Because it has been effective for me. Use in the similar way.
 
 ```python
 ret, thresh_image = cv2.threshold(small_image, 100, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C)
@@ -335,3 +357,189 @@ blurimg = cv2.GaussianBlur(small_image, (7, 7), 0) # blur image
 Play with these values to get different results. You are passing in a kernel that modifies how
 the function blurs your image. Learn more about it
 [here](https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_filtering/py_filtering.html).
+
+# Drawing rectangles
+
+Let see how we can draw rectangles on your image.
+To do this we use the `cv2.rectangle` function.
+An example is shown below
+
+```python
+cv2.rectangle(image, (50, 100), (100, 200), (0, 255, 0))
+```
+
+So above we have the source image called `image`. The we have a tuple for 
+the start point (x, y) coordinates `(50, 100)`. Then the end point with 
+(x, y) coordinates `(100, 200)`. Finally we have set the color of the via
+tuple rgb. So green is `(0, 255, 0)`.
+
+The results is shown below.
+
+[draw_rectangle.png]
+
+Lets try to get the nose inside the box. Or the box over the nose.
+
+```python
+import cv2
+
+image = cv2.imread('dog.png')
+gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+small_image = cv2.resize(image, (300, 300))
+cv2.rectangle(small_image, (150, 80), (230, 150), (0, 255, 0))
+cv2.imshow("dog", small_image)
+cv2.waitKey(0)
+```
+
+The results is shown below. If you play with this long enough. To move your box horizontally play with the 
+x values in the starting and ending points. To move your box vertically play with the y values in the starting and
+ending points.
+
+[bounding_box_nose.png]
+
+# Cropping Images
+
+So you can now draw rectangles. Lets see how we can crop an image.
+To crop an image we only need to do this as shown below
+
+```python
+cropped = orig[startY:endY, startX:endX]
+```
+
+Where `cropped` is the finally image. `orig` is the original image. `startY` and `endY` are y coordinates.
+`startX` and `endX` are x coordinates.
+
+The full code can be seen here
+
+```python
+import cv2
+
+image = cv2.imread('dog.png')
+gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+small_image = cv2.resize(image, (300, 300))
+cv2.rectangle(small_image, (150, 80), (230, 150), (0, 255, 0))
+cropped = small_image[80:150, 150:230]
+cv2.imshow("dog", small_image)
+cv2.imshow("cropped image", cropped)
+cv2.waitKey(0)
+```
+
+The results is shown below.
+
+[cropping_images.png]
+
+# Rotating your images
+
+Lets see how we can rotate images with opencv. We can use `cv2.warpAffine()`
+to rotate our images. You can learn more [here](https://docs.opencv.org/2.4/doc/tutorials/imgproc/imgtrans/warp_affine/warp_affine.html)
+
+Lets get started.
+
+```python
+image = cv2.imread('dog.png')
+gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+small_image = cv2.resize(image, (300, 300))
+(h, w) = small_image.shape[:2] # get height and width
+center = (w / 2, h / 2) # divide by 2
+M = cv2.getRotationMatrix2D(center, 30, 1.0) # get matrix
+rotated = cv2.warpAffine(small_image, M, (h, w)) # rotate image
+cv2.imshow("Rotated Image", rotated)
+cv2.waitKey(0)
+```
+
+So we get our matrix using `cv2.getRotationMatrix2D(center, 30, 1.0)`.
+The `30` is the angle. We can change this to rotate the image to different degrees.
+
+The results is shown below.
+
+**For 30 **
+
+[rotate_image_30.png]
+
+**For 90**
+
+[roate_image_90.png]
+
+
+# Conclusion
+
+Alrite. We just completed a basic introduction into opencv. You have the basics to get you started with a 
+whole world of computer vision.
+
+Below I play with some more concepts that you might have heard of.
+
+
+# Edges in images
+
+You can using `cv2.Canny` to view edges in images.
+The example is shown below
+
+```python
+template = cv2.Canny(small_image, 150, 200)
+```
+
+You can change the `150` and `200`. Play with these values to see the variations.
+The full code is below
+
+```python
+import cv2
+
+image = cv2.imread('dog.png')
+gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+small_image = cv2.resize(image, (300, 300))
+template = cv2.Canny(small_image, 150, 200)
+cv2.imshow("template", template)
+cv2.imshow("dog", small_image)
+cv2.waitKey(0)
+```
+
+The results is shown below
+
+[egde_detection.png]
+
+## Playing with Edges
+
+Lets get a new image. A sample crossword image.
+
+[simple_crossword.png]
+
+Now lets add edge detection on it.
+
+```python
+import cv2
+
+image = cv2.imread('crossword.png')
+gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+small_image = cv2.resize(image, (300, 300))
+template = cv2.Canny(small_image, 175, 200)
+cv2.imshow("template", template)
+cv2.imshow("normal", small_image)
+cv2.waitKey(0)
+```
+
+The results is shown below.
+
+[edges_in_crossword.png]
+
+## Drawing contours
+
+We can draw the contours we find using edge detection.
+
+```python
+import cv2
+
+image = cv2.imread('crossword.png')
+gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+small_image = cv2.resize(image, (300, 300))
+template = cv2.Canny(small_image, 175, 200)
+contours, hierarchy = cv2.findContours(template, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+cv2.imshow("template", template)
+cv2.drawContours(small_image, contours, -1, (0, 255, 0), 3)
+cv2.imshow("draw contours", small_image)
+cv2.waitKey(0)
+```
+
+The results is shown below.
+
+[drawing_contours.png]
+
+
